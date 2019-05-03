@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script>
+      // Overwrites native 'firstElementChild' prototype.
+      // Adds Document & DocumentFragment support for IE9 & Safari.
+      // Returns array instead of HTMLCollection.
+      (function(constructor) {
+        if (
+          constructor &&
+          constructor.prototype &&
+          constructor.prototype.firstElementChild == null
+        ) {
+          Object.defineProperty(constructor.prototype, "firstElementChild", {
+            get: function() {
+              var node,
+                nodes = this.childNodes,
+                i = 0;
+              while ((node = nodes[i++])) {
+                if (node.nodeType === 1) {
+                  return node;
+                }
+              }
+              return null;
+            }
+          });
+        }
+      })(window.Node || window.Element);
+
+      // https://tc39.github.io/ecma262/#sec-array.prototype.find
+      if (!Array.prototype.find) {
+        Object.defineProperty(Array.prototype, "find", {
+          value: function(predicate) {
+            // 1. Let O be ? ToObject(this value).
+            if (this == null) {
+              throw new TypeError('"this" is null or not defined');
+            }
+
+            var o = Object(this);
+
+            // 2. Let len be ? ToLength(? Get(O, "length")).
+            var len = o.length >>> 0;
+
+            // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+            if (typeof predicate !== "function") {
+              throw new TypeError("predicate must be a function");
+            }
+
+            // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+            var thisArg = arguments[1];
+
+            // 5. Let k be 0.
+            var k = 0;
+
+            // 6. Repeat, while k < len
+            while (k < len) {
+              // a. Let Pk be ! ToString(k).
+              // b. Let kValue be ? Get(O, Pk).
+              // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+              // d. If testResult is true, return kValue.
+              var kValue = o[k];
+              if (predicate.call(thisArg, kValue, k, o)) {
+                return kValue;
+              }
+              // e. Increase k by 1.
+              k++;
+            }
+
+            // 7. Return undefined.
+            return undefined;
+          },
+          configurable: true,
+          writable: true
+        });
+      }
+
+      if (!Element.prototype.matches) {
+  Element.prototype.matches = 
+      Element.prototype.matchesSelector || 
+      Element.prototype.mozMatchesSelector ||
+      Element.prototype.msMatchesSelector || 
+      Element.prototype.oMatchesSelector || 
+      Element.prototype.webkitMatchesSelector ||
+      function(s) {
+        var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+            i = matches.length;
+        while (--i >= 0 && matches.item(i) !== this) {}
+        return i > -1;            
+      };
+}
+    </script>
+  </head>
+  <body>
+    <div>
+      <xtal-text-input-md id="ti" placeholder="Please fill in your full name">
+        <span slot="label">Name</span>
+      </xtal-text-input-md>
+      <script type="module" src="../xtal-text-input-md.js"></script>
+      <script
+        nomodule
+        src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"
+      ></script>
+      <script nomodule src="../dist/iife.js"></script>
+      <script>
+        const options = {
+          data: [],
+          textFld: "txt",
+          keyFld: "id"
+        };
+        for (let i = 0; i < 5000; i++) {
+          const item = {
+            txt: i + " item",
+            id: i
+          };
+          options.data.push(item);
+        }
+        ti.options = options;
+      </script>
+    </div>
+  </body>
+</html>
