@@ -3,7 +3,6 @@ import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 import { RenderContext } from "trans-render/init.d.js";
-import {up} from "trans-render/hydrate.js";
 
 export interface IXtalInputProperties {
   value: string;
@@ -238,9 +237,8 @@ export class XtalTextInputMD extends XtalElement {
   get mainTemplate() {
     return textInputTemplate;
   }
-  _initContext = {} as RenderContext;
-  get initContext() {
-    return this._initContext;
+  get initRenderContext() {
+    return {};
   }
 
   _eventContext = newEventContext({
@@ -330,7 +328,7 @@ export class XtalTextInputMD extends XtalElement {
     }
   }
   connectedCallback() {
-    this[up](["value", "options"]);
+    this.propUp(["value", "options"]);
     super.connectedCallback();
   }
 

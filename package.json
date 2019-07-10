@@ -5,8 +5,8 @@
   "main": "xtal-text-input-md.js",
   "module": "xtal-text-input-md.js",
   "dependencies": {
-    "trans-render": "0.0.110",
-    "xtal-element": "0.0.58",
+    "trans-render": "0.0.122",
+    "xtal-element": "0.0.65",
     "event-switch": "0.0.12"
   },
   "devDependencies": {

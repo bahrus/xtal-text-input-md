@@ -2,7 +2,6 @@ import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
-import { up } from "trans-render/hydrate.js";
 export const baseTemplateGenerator = (type) => /* html */ `
 <div class="form-element form-input">
   <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder=" " required />
@@ -212,7 +211,6 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 export class XtalTextInputMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._initContext = {};
         this._eventContext = newEventContext({
             change: e => {
                 const element = this.inputElement;
@@ -238,8 +236,8 @@ export class XtalTextInputMD extends XtalElement {
     get mainTemplate() {
         return textInputTemplate;
     }
-    get initContext() {
-        return this._initContext;
+    get initRenderContext() {
+        return {};
     }
     get eventContext() {
         return this._eventContext;
@@ -312,7 +310,7 @@ export class XtalTextInputMD extends XtalElement {
         }
     }
     connectedCallback() {
-        this[up](["value", "options"]);
+        this.propUp(["value", "options"]);
         super.connectedCallback();
     }
     addMutationObserver() {
