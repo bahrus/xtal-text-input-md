@@ -256,7 +256,7 @@ export class XtalTextInputMD extends XtalElement {
     return this._eventContext;
   }
 
-  get ready() {
+  get readyToInit() {
     return true;
   }
   _value!: string;
