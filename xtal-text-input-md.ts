@@ -280,7 +280,7 @@ export class XtalTextInputMD extends XtalElement {
   _previousOptions!: IXtalInputOptions;
   _initializedAttrs = false;
   onPropsChange() {
-    if (!super.onPropsChange()) return false;
+    if (!super.onPropsChange() || !this.inputElement) return false;
     if (this._options && this._options !== this._previousOptions) {
       this._previousOptions = this._options;
       const nv = this._options;
@@ -296,7 +296,7 @@ export class XtalTextInputMD extends XtalElement {
       });
       dl.innerHTML = arr.join('');
     }
-    if (!this._initializedAttrs && this.inputElement) {
+    if (!this._initializedAttrs) {
       for (let i = 0, ii = this.attributes.length; i < ii; i++) {
         const attrib = this.attributes[i];
         //const inp = clonedNode.querySelector('input');
