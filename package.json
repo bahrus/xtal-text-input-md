@@ -1,6 +1,6 @@
 {
   "name": "xtal-text-input-md",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Material design text input",
   "main": "xtal-text-input-md.js",
   "module": "xtal-text-input-md.js",
