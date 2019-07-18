@@ -296,7 +296,7 @@ export class XtalTextInputMD extends XtalElement {
       });
       dl.innerHTML = arr.join('');
     }
-    if (!this._initializedAttrs) {
+    if (!this._initializedAttrs && this.inputElement) {
       for (let i = 0, ii = this.attributes.length; i < ii; i++) {
         const attrib = this.attributes[i];
         //const inp = clonedNode.querySelector('input');
