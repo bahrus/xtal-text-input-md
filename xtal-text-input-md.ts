@@ -266,7 +266,7 @@ export class XtalTextInputMD extends XtalElement {
   set value(val) {
     this._value = val;
     this.onPropsChange();
-    this.emitEvent();
+    //this.emitEvent();
   }
   selection: any;
   _options!: IXtalInputOptions;
