@@ -228,7 +228,7 @@ export class XtalTextInputMD extends XtalElement {
         return "xtal-text-input-md";
     }
     get inputElement() {
-        if (this._inputElement === undefined) {
+        if (!this._inputElement) {
             this._inputElement = this.root.querySelector("input,textarea");
         }
         return this._inputElement;
