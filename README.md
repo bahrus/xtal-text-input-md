@@ -4,3 +4,7 @@
 
 # xtal-text-input-md
 Material Design Text Input
+
+## Syntax
+
+<iframe src="http://bahrus.github.io/syntax.html?npmPackage=xtal-text-input-md"></iframe>
