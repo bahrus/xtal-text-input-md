@@ -5,6 +5,6 @@
 # xtal-text-input-md
 Material Design Text Input
 
-## Syntax
 
-<object data="http://bahrus.github.io/syntax.html?npmPackage=xtal-text-input-md"></object>
+
+<a href="https://bahrus.github.io/wc-info/syntax.html?npmPackage=xtal-text-input-md"><h2>Syntax</h2></a>
