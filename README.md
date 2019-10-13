@@ -7,4 +7,4 @@ Material Design Text Input
 
 ## Syntax
 
-<iframe src="http://bahrus.github.io/syntax.html?npmPackage=xtal-text-input-md"></iframe>
+<object data="http://bahrus.github.io/syntax.html?npmPackage=xtal-text-input-md"></object>
