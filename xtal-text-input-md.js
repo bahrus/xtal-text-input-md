@@ -201,12 +201,9 @@ export const baseTemplateGenerator = (type) => /* html */ `
 `;
 const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 /**
- * `xtal-text-input-md`
- *  Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ * @element xtal-text-input-md
  *
- * @customElement
- * @polymer
- * @demo demo/index.html
  */
 export class XtalTextInputMD extends XtalElement {
     constructor() {
@@ -248,6 +245,9 @@ export class XtalTextInputMD extends XtalElement {
     get value() {
         return this._value;
     }
+    /**
+     *
+     */
     set value(val) {
         this._value = val;
         this.onPropsChange();
