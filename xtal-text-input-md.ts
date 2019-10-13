@@ -216,7 +216,9 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 
 /**
  * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
+ * Most attributes of input supported
  * @element xtal-text-input-md
+ * @slot label
  *  
  */
 export class XtalTextInputMD extends XtalElement {
@@ -261,18 +263,21 @@ export class XtalTextInputMD extends XtalElement {
     return this._value;
   }
   /**
-   * 
+   * Pass through to input value
+   * @attr value
    */
   set value(val) {
     this._value = val;
     this.onPropsChange();
-    //this.emitEvent();
   }
   selection: any;
   _options!: IXtalInputOptions;
   get options() {
     return this._options;
   }
+  /**
+   * Options for autocomplete
+   */
   set options(nv) {
     this._options = nv;
     this.onPropsChange();

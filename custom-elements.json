@@ -3,14 +3,20 @@
   "tags": [
     {
       "name": "xtal-text-input-md",
-      "description": "Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB",
-      "jsDoc": "/**\n * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\n * @element xtal-text-input-md\n *\n */",
+      "description": "Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\nMost attributes of input supported",
+      "jsDoc": "/**\n * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\n * Most attributes of input supported\n * @element xtal-text-input-md\n * @slot label\n *\n */",
       "attributes": [
         {
           "name": "disabled",
           "description": "Any component that emits events should not do so if it is disabled.\r\nNote that this is not enforced, but the disabled property is made available.\r\nUsers of this mix-in should ensure not to call \"de\" if this property is set to true.",
           "jsDoc": "/**\r\n         * Any component that emits events should not do so if it is disabled.\r\n         * Note that this is not enforced, but the disabled property is made available.\r\n         * Users of this mix-in should ensure not to call \"de\" if this property is set to true.\r\n         * @attr\r\n         */",
           "type": "boolean"
+        },
+        {
+          "name": "value",
+          "description": "Pass through to input value",
+          "jsDoc": "/**\n     * Pass through to input value\n     * @attr value\n     */",
+          "type": "any"
         }
       ],
       "properties": [
@@ -36,16 +42,23 @@
         },
         {
           "name": "value",
-          "jsDoc": "/**\n     *\n     */",
+          "description": "Pass through to input value",
+          "jsDoc": "/**\n     * Pass through to input value\n     * @attr value\n     */",
           "type": "any"
         },
         {
           "name": "options",
+          "description": "Options for autocomplete",
+          "jsDoc": "/**\n     * Options for autocomplete\n     */",
           "type": "any"
         }
       ],
       "events": [],
-      "slots": []
+      "slots": [
+        {
+          "name": "label"
+        }
+      ]
     }
   ]
 }
