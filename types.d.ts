@@ -7,7 +7,7 @@ export interface IXtalInputOptions {
   keyFld: string;
 }
 
-export interface IXtalInputProperties {
+export interface IXtalInputProperties extends HTMLElement {
   value: string;
   options: IXtalInputOptions;
 }
