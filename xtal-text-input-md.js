@@ -205,6 +205,8 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
  * Most attributes of input supported
  * @element xtal-text-input-md
  * @slot label
+ * @event value-changed - Fires when value changes
+ * @event selection-changed -  Fires when autosuggest option selection changes
  *
  */
 export class XtalTextInputMD extends XtalElement {

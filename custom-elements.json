@@ -4,7 +4,7 @@
     {
       "name": "xtal-text-input-md",
       "description": "Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\nMost attributes of input supported",
-      "jsDoc": "/**\n * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\n * Most attributes of input supported\n * @element xtal-text-input-md\n * @slot label\n *\n */",
+      "jsDoc": "/**\n * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB\n * Most attributes of input supported\n * @element xtal-text-input-md\n * @slot label\n * @event value-changed - Fires when value changes\n * @event selection-changed -  Fires when autosuggest option selection changes\n *\n */",
       "attributes": [
         {
           "name": "disabled",
@@ -53,7 +53,16 @@
           "type": "any"
         }
       ],
-      "events": [],
+      "events": [
+        {
+          "name": "selection-changed",
+          "description": "Fires when autosuggest option selection changes"
+        },
+        {
+          "name": "value-changed",
+          "description": "Fires when value changes"
+        }
+      ],
       "slots": [
         {
           "name": "label"

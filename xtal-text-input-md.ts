@@ -3,16 +3,9 @@ import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 import { RenderContext } from "trans-render/init.d.js";
+import {xtal_text_input_md, IXtalInputOptions, IXtalInputProperties} from './types.d.js';
 
-export interface IXtalInputProperties {
-  value: string;
-}
 
-export interface IXtalInputOptions {
-  data: any[];
-  textFld: string;
-  keyFld: string;
-}
 
 export const baseTemplateGenerator = (type: string) => /* html */ `
 <div class="form-element form-input">
@@ -219,10 +212,12 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
  * Most attributes of input supported
  * @element xtal-text-input-md
  * @slot label
+ * @event value-changed - Fires when value changes
+ * @event selection-changed -  Fires when autosuggest option selection changes
  *  
  */
-export class XtalTextInputMD extends XtalElement {
-  static get is() {
+export class XtalTextInputMD extends XtalElement implements IXtalInputProperties{
+  static get is()  {
     return "xtal-text-input-md";
   }
 

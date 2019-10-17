@@ -27,7 +27,8 @@ export function autoCompletize(txt, vals) {
                 }
                 dl = self[this.getAttribute('list')];
                 const options = this.options;
-                if (options !== undefined && (options !== this._previousOptions || this.value !== this._previousValue)) {
+                const previousOptions = this._previousOptions;
+                if (options !== undefined && (options !== previousOptions || this.value !== this._previousValue)) {
                     this._previousOptions = options;
                     this._previousValue = this.value;
                     const viewableOptions = [];
@@ -35,9 +36,10 @@ export function autoCompletize(txt, vals) {
                     const textFld = options.textFld;
                     //let exactlyOneExactMatch = false;
                     let exactMatch = null;
+                    const valLC = this.value.toLowerCase();
                     for (let i = 0, ii = options.data.length; i < ii; i++) {
                         const row = options.data[i];
-                        if ((row[textFld]).toLowerCase().indexOf(this.value.toLowerCase()) > -1) {
+                        if ((row[textFld]).toLowerCase().indexOf(valLC) > -1) {
                             if (cnt === 0) {
                                 if (row[textFld] === this.value) {
                                     exactMatch = row;
@@ -68,10 +70,11 @@ export function autoCompletize(txt, vals) {
         },
         on: {
             input: function (e) {
-                if (this.options === undefined)
+                const options = this.options;
+                if (options === undefined)
                     return;
-                const textFld = this.options.textFld;
-                const item = this.options.data.find(item => item[textFld] === this.value);
+                const textFld = options.textFld;
+                const item = options.data.find(item => item[textFld] === this.value);
                 if (item !== undefined) {
                     this.selection = item;
                 }

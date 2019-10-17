@@ -19,9 +19,9 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
             lastVal: undefined
         },
         methods:{
-            onPropsChange: function(name){
+            onPropsChange: function(name: string){
                 if(name==='selection') return;
-                let dl: HTMLDataListElement = null;
+                let dl: HTMLDataListElement | null = null;
                 if(!this.hasAttribute('list')){
                     const dl = document.createElement('datalist');
                     dl.id = auto + count;
@@ -30,19 +30,21 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                     dl.style.display='none';
                     document.head.appendChild(dl);
                 }
-                dl = self[this.getAttribute('list')];
-                const options = this.options as IXtalInputOptions;
-                if(options !== undefined && (options !== this._previousOptions || this.value !== this._previousValue)){
-                    this._previousOptions = options;
+                dl = <any>self[this.getAttribute('list')] as HTMLDataListElement;
+                const options = (<any>this).options as IXtalInputOptions;
+                const previousOptions = (<any>this)._previousOptions as IXtalInputOptions;
+                if(options !== undefined && (options !== previousOptions || this.value !== this._previousValue)){
+                    (<any>this)._previousOptions = options;
                     this._previousValue = this.value;
                     const viewableOptions = [];
                     let cnt = 0;
                     const textFld = options.textFld;
                     //let exactlyOneExactMatch = false;
                     let exactMatch = null;
+                    const valLC = ((<any>this).value as string).toLowerCase();
                     for(let i = 0, ii = options.data.length; i < ii; i++){
                         const row = options.data[i];
-                        if((row[textFld]).toLowerCase().indexOf(this.value.toLowerCase()) > -1){
+                        if((row[textFld]).toLowerCase().indexOf(valLC) > -1){
                             if(cnt === 0){
                                 if(row[textFld] === this.value){
                                     exactMatch = row;
@@ -61,7 +63,7 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
                         this.selection = exactMatch;
                         return;
                     }
-                    const arr = [];
+                    const arr: string[] = [];
                     viewableOptions.forEach(item =>{
                         arr.push(/* html */`<option value="${item[textFld]}">`);
                     })
@@ -72,9 +74,11 @@ export function autoCompletize(txt: HTMLInputElement, vals: HTMLInputElement){
         },
         on: {
             input: function(e){
-                if(this.options === undefined) return;
-                const textFld = this.options.textFld;
-                const item = this.options.data.find(item => item[textFld] === this.value);
+                const options = (<any>this).options as IXtalInputOptions
+                if(options === undefined) return;
+                
+                const textFld = options.textFld;
+                const item = options.data.find(item => item[textFld] === this.value);
                 if (item !== undefined) {
                     this.selection = item;
                 }
