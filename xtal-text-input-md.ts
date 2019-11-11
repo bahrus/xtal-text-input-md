@@ -2,14 +2,13 @@ import { XtalElement } from "xtal-element/xtal-element.js";
 import { define } from "trans-render/define.js";
 import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
-import { RenderContext } from "trans-render/init.d.js";
-import {xtal_text_input_md, IXtalInputOptions, IXtalInputProperties} from './types.d.js';
+import {IXtalInputOptions, IXtalInputProperties} from './types.d.js';
 
 
 
 export const baseTemplateGenerator = (type: string) => /* html */ `
 <div class="form-element form-input">
-  <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder=" " required />
+  <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder required />
   <datalist id="options"></datalist>
   <div class="form-element-bar"></div>
   <label class="form-element-label" for="input_field">

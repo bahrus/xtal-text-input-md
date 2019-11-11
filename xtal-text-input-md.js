@@ -4,7 +4,7 @@ import { createTemplate } from "xtal-element/utils.js";
 import { newEventContext } from "event-switch/event-switch.js";
 export const baseTemplateGenerator = (type) => /* html */ `
 <div class="form-element form-input">
-  <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder=" " required />
+  <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder required />
   <datalist id="options"></datalist>
   <div class="form-element-bar"></div>
   <label class="form-element-label" for="input_field">
