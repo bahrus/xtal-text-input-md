@@ -5,17 +5,13 @@
   "main": "xtal-text-input-md.js",
   "module": "xtal-text-input-md.js",
   "dependencies": {
-    "trans-render": "0.0.137",
-    "xtal-element": "0.0.90",
+    "trans-render": "0.0.143",
+    "xtal-element": "0.0.101",
     "event-switch": "0.0.12"
   },
   "devDependencies": {
-    "@types/node": "12.12.7",
-    "@types/tape": "4.2.33",
-    "@webcomponents/webcomponentsjs": "2.3.0",
-    "jiife": "0.0.14",
-    "tape": "4.11.0",
-    "xtal-test": "0.0.21"
+    "@webcomponents/webcomponentsjs": "2.4.3",
+    "xtal-test": "0.0.44"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
