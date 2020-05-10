@@ -1,7 +1,6 @@
-import { XtalElement } from "xtal-element/xtal-element.js";
+import { XtalElement } from "xtal-element/XtalElement.js";
 import { define } from "trans-render/define.js";
-import { createTemplate } from "xtal-element/utils.js";
-import { newEventContext } from "event-switch/event-switch.js";
+import { createTemplate } from "trans-render/createTemplate.js";
 export const baseTemplateGenerator = (type) => /* html */ `
 <div class="form-element form-input">
   <input id="input_field" list="options" type="${type}" class="form-element-field" placeholder required />
@@ -200,6 +199,8 @@ export const baseTemplateGenerator = (type) => /* html */ `
 </style>
 `;
 const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
+const inpEl$ = Symbol();
+const optionsEl$ = Symbol();
 /**
  * Web component wrapper around Jon Uhlmann's pure CSS material design text input element. https://codepen.io/jonnitto/pen/OVmvPB
  * Most attributes of input supported
@@ -212,39 +213,54 @@ const textInputTemplate = createTemplate(baseTemplateGenerator("text"));
 export class XtalTextInputMD extends XtalElement {
     constructor() {
         super(...arguments);
-        this._eventContext = newEventContext({
-            change: e => {
-                const element = this.inputElement;
-                if (element && element.matches(".form-element-field")) {
-                    element.classList[element.value ? "add" : "remove"]("-hasvalue");
+        this.readyToInit = true;
+        this.readyToRender = true;
+        this.mainTemplate = textInputTemplate;
+        this.initTransform = {
+            div: {
+                'input, textarea': [, { input: this.handleInput, change: this.handleChange }, , , inpEl$],
+                '"': ({ target }) => {
+                    for (let i = 0, ii = this.attributes.length; i < ii; i++) {
+                        const attrib = this.attributes[i];
+                        if (attrib.name === "type")
+                            continue;
+                        target.setAttribute(attrib.name, attrib.value);
+                    }
+                    this.addMutationObserver();
+                },
+                datalist: optionsEl$
+            }
+        };
+        this.updateTransforms = [
+            ({ options }) => {
+                if (options && options !== this._previousOptions) {
+                    //TODO: use repeat
+                    this._previousOptions = options;
+                    const nv = options;
+                    const dl = this[optionsEl$];
+                    dl.innerHTML = "";
+                    const textFld = nv.textFld;
+                    const arr = [];
+                    nv.data.forEach(item => {
+                        arr.push(/* html */ `<option value="${item[textFld]}">`);
+                    });
+                    dl.innerHTML = arr.join('');
                 }
             },
-            input: e => {
-                this.emitEvent();
+            ({ value }) => {
+                this[inpEl$].value = value;
             }
-        });
+        ];
         this._initializedAttrs = false;
     }
-    static get is() {
-        return "xtal-text-input-md";
+    handleInput(e) {
+        this.emitEvent();
     }
-    get inputElement() {
-        if (!this._inputElement) {
-            this._inputElement = this.root.querySelector("input,textarea");
+    handleChange(e) {
+        const element = this[inpEl$];
+        if (element && element.matches(".form-element-field")) {
+            element.classList[element.value ? "add" : "remove"]("-hasvalue");
         }
-        return this._inputElement;
-    }
-    get mainTemplate() {
-        return textInputTemplate;
-    }
-    get initRenderContext() {
-        return {};
-    }
-    get eventContext() {
-        return this._eventContext;
-    }
-    get readyToInit() {
-        return true;
     }
     get value() {
         return this._value;
@@ -255,7 +271,7 @@ export class XtalTextInputMD extends XtalElement {
      */
     set value(val) {
         this._value = val;
-        this.onPropsChange();
+        this.onPropsChange('value');
     }
     get options() {
         return this._options;
@@ -265,43 +281,10 @@ export class XtalTextInputMD extends XtalElement {
      */
     set options(nv) {
         this._options = nv;
-        this.onPropsChange();
-    }
-    onPropsChange() {
-        if (!super.onPropsChange() || !this.inputElement)
-            return false;
-        if (this._options && this._options !== this._previousOptions) {
-            this._previousOptions = this._options;
-            const nv = this._options;
-            const dl = this.root.querySelector("#options");
-            dl.innerHTML = "";
-            const textFld = nv.textFld;
-            const arr = [];
-            nv.data.forEach(item => {
-                // const optionTarget = document.createElement("option");
-                // optionTarget.setAttribute("value", item[textFld]);
-                // dl.appendChild(optionTarget);
-                arr.push(/* html */ `<option value="${item[textFld]}">`);
-            });
-            dl.innerHTML = arr.join('');
-        }
-        if (!this._initializedAttrs) {
-            for (let i = 0, ii = this.attributes.length; i < ii; i++) {
-                const attrib = this.attributes[i];
-                //const inp = clonedNode.querySelector('input');
-                if (attrib.name === "type")
-                    continue;
-                this.inputElement.setAttribute(attrib.name, attrib.value);
-            }
-            this._initializedAttrs = true;
-        }
-        if (this._value !== undefined)
-            this.inputElement.value = this._value;
-        this.addMutationObserver();
-        return true;
+        this.onPropsChange('options');
     }
     emitEvent() {
-        const val = this.inputElement.value;
+        const val = this[inpEl$].value;
         this.value = val;
         this.de("value", {
             value: val
@@ -332,7 +315,7 @@ export class XtalTextInputMD extends XtalElement {
                         this.options = JSON.parse(attrVal);
                         break;
                     default:
-                        this.inputElement.setAttribute(attrName, attrVal);
+                        this[inpEl$].setAttribute(attrName, attrVal);
                 }
                 attrName;
             });
@@ -343,4 +326,5 @@ export class XtalTextInputMD extends XtalElement {
         this._observer.disconnect();
     }
 }
+XtalTextInputMD.is = "xtal-text-input-md";
 define(XtalTextInputMD);
